@@ -12,10 +12,9 @@ class IPRateLimit:
     def check_ip(self, ip: str) -> bool:
         if ip in self.ips:
             ip_info = self.ips[ip]
-            if ip_info['count'] >= self.count:
-                if ip_info['time'] + timedelta(minutes=self.minutes) > datetime.now():
-                    return False
-                self.ips.pop(ip)
+            if ip_info['count'] >= self.count and ip_info['time'] + timedelta(minutes=self.minutes) > datetime.now():
+                return False
+            self.ips.pop(ip)
         return True
 
     def add_ip(self, ip: str) -> int:
